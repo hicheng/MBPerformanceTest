@@ -1,0 +1,18 @@
+一. 应用启动
+技术文档：http://blog.csdn.net/addisonko/article/details/51207772
+启动方式： 热启动、冷启动
+
+一个应用从创建进程到进程的销毁， Application只会初始化一次。
+1. 冷启动：当启动应用时，后台没有该应用的进程，这是系统会重新创建一个新的进程分配给该应用，所以会先创建和初始化Application类， 再创建和初始化MainActivity类（包含一系列的测量、布局、绘制），最后显示在界面上。
+
+2. 热启动： 当启动应用时，后台已有该应用的进程（例： 按back键、home键，应用虽然会退出，但是该应用的进程依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，所以热启动就不会走Application类，而是直接渲染创建和初始化一个MainActivity
+
+应用启动流程：
+
+在安卓系统上，应用在没有进程的情况下，应用的启动都是这样的一个流程：
+当点击App的启动图标时， 安卓系统会从Zygote进程中fork创建出一个新的进程分配给该应用，之后会一次创建和初始化Application类、创建MainActivity类、加载主题样式Theme中的windowsBackground等属性设置给MainActivity以及配置Activity层级上的一些属性、再inflate布局、当onCreate/onStart/onResume方法都走完了后最后才进行contentView的measure/layout/draw显示在界面上，所以直到这里，应用的第一次启动才算完成， 这时候我们看到的界面也就是所说的第一帧。
+
+
+
+Application的构造器方法——>attachBaseContext()——>onCreate()——>Activity的构造方法——>onCreate()——>配置主题中背景等属性——>onStart()——>onResume()——>测量布局绘制显示在界面上。
+（点击App- -分配进程- -创建Application类- -创建MainActivity类- -配置Activity属性加载布局显示画面第一帧）

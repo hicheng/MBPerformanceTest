@@ -1,5 +1,8 @@
 一. 应用启动
-技术文档：http://blog.csdn.net/addisonko/article/details/51207772
+技术文档：
+http://blog.csdn.net/addisonko/article/details/51207772
+http://androidperformance.com/2015/12/31/How-to-calculation-android-app-lunch-time.html
+
 启动方式： 热启动、冷启动
 
 一个应用从创建进程到进程的销毁， Application只会初始化一次。
@@ -16,3 +19,25 @@
 
 Application的构造器方法——>attachBaseContext()——>onCreate()——>Activity的构造方法——>onCreate()——>配置主题中背景等属性——>onStart()——>onResume()——>测量布局绘制显示在界面上。
 （点击App- -分配进程- -创建Application类- -创建MainActivity类- -配置Activity属性加载布局显示画面第一帧）
+
+
+二. Android中如何计算App的启动时间
+利用python或者直接用adb命令怎么计算apk的启动时间？
+就是计算从点击图标到apk完全启动所花费的时间。 比如， 对游戏来说就是点击游戏图标到进入到登录界面的这段时间。
+已知的两种方法可以获取， 一种是adb shell am start -W packagename/MainActivity. 可以得到Thistime和totaltime
+另一种是通过adb logcat的方式查看
+
+我们平时在写应用的时候,一般会指定一个 mainActivity ,用户在桌面上点击这个 Activity 的时候,系统会直接起这个 Activity. 我们知道 Activity 在启动的时候会走 onCreate/onStart/onResume .这几个回调函数.
+也就是我们常说的冷启动,这时候你的应用程序的进程是没有创建的. 这也是大部分应用的使用场景.用户在桌面上点击你应用的 icon 之后,首先要创建进程,然后才启动 MainActivity.
+这时候adb shell am start -w packagename/MainActivity 返回的结果,就是标准的应用程序的启动时间（注意 Android 5.0 之前的手机是没有 WaitTime 这个值的）:
+
+adb shell am start -W com.manboker.headportrait/.activities.SplashActivity
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.L
+AUNCHER] cmp=com.manboker.headportrait/.activities.SplashActivity }
+Warning: Activity not started, its current task has been brought to the front
+Status: ok
+Activity: com.manboker.headportrait/.activities.EntryActivity
+ThisTime: 307
+TotalTime: 307
+WaitTime: 316
+Complete

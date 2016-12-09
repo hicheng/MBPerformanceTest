@@ -1,0 +1,11 @@
+@echo off
+
+	rem ---------- 使用说明: ----------
+
+	rem am start ，启动一个Activity
+	
+
+echo  ---------- 执行App启动时间测试 ----------
+powershell "adb shell am start -W com.manboker.headportrait/.activities.SplashActivity"
+
+echo. & pause

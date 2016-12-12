@@ -1,0 +1,12 @@
+1. ADB视频录制命令screenrecord
+开始录制视频命令
+adb shell screenrecord /sdcard/demo.mp4
+限制录制时间
+--time-limit	单位：S  默认是180s
+adb shell --time-limit 10 screenrecord /sdcard/demo.mp4
+指定视频分辨率大小
+--size  不指定为默认分辨率
+adb shell screenrecord --size 1280*720 /sdcard/demo.mp4
+在命令行显示log
+--verbose
+adb shell screenrecord -- verbose /sdcard/demo.mp4

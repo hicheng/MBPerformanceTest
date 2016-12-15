@@ -6,15 +6,15 @@
 '''
 
 import os
-
 import time
-from PublicResour import AdbMethon
+
+from MBPerformanceTest import AdbMethon
 
 PATH = lambda p: os.path.abspath(p)
 
 def Record():
     # 录制视频(存在sdcard中)
-    AdbMethon.shell("screenrecord /sdcard/sina/vide2.mp4")
+    AdbMethon.shell("screenrecord /sdcard/test1/video.mp4")
     # 停止录制
     input_key = raw_input("Please press the Enter key to stop recording :\n")
     if input_key == "":
@@ -30,8 +30,8 @@ def Record():
         os.makedirs(path)
 
     # wait()等待子进程结束
-    AdbMethon.adb("pull /sdcard/sina/vide2.mp4 %s" % PATH("%s/%s.mp4" % (path, AdbMethon.timestamp()))).wait()
+    AdbMethon.adb("pull /sdcard/test1/video.mp4 %s" % PATH("%s/%s.mp4" % (path, AdbMethon.timestamp()))).wait()
 
 if __name__ == "__main__":
     Record()
-
+#    os.system("adb shell screenrecord /sdcard/test1/devid.mp4")

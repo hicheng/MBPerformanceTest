@@ -13,16 +13,21 @@ class Apk():
         安装应用, 覆盖安装-r
         @return:
         '''
-        apkname = raw_input(u"请输入要安装的Apk名: \n")
+        try:
+            apkname = raw_input(u"请输入要安装的Apk名: \n")
 
-        # 卸载应用
-        AdbMethon.adb("uninstall com.manboker.headportrait")
+            # 卸载应用
+            AdbMethon.adb("uninstall com.manboker.headportrait")
 
-        # 删除文件夹
-        AdbMethon.shell("rm -rf /sdcard/MomentCam")
+            # 删除文件夹
+            AdbMethon.shell("rm -rf /sdcard/MomentCam")
 
-        # 安装应用
-        AdbMethon.adb("install C:\log\%s.apk" %apkname )
+            # 安装应用
+            AdbMethon.adb("install C:\AndroidApk\%s.apk" %apkname )
+            print u"安装完成请稍等"
+
+        except:
+            print u"安装时遇到问题了QAQ"
 
         '''
         # 使用正则， 传入的是正则地址
